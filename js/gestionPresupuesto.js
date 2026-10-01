@@ -14,13 +14,13 @@ function actualizarPresupuesto(nuevoPresupuesto) {
         console.log("Error: el valor introducido no es válido.");
         return -1;
     }
-    // TODO
+    // TODO, hecho.
 }
 
 function mostrarPresupuesto() {
 
     return `Tu presupuesto actual es de ${presupuesto} €`;
-    // TODO
+    // TODO, hecho.
 }
 
 function CrearGasto(descripcion, valor) {
@@ -54,7 +54,7 @@ function CrearGasto(descripcion, valor) {
                     }
             };
         }
-//TODO
+//TODO, hecho.
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
