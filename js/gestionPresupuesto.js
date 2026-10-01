@@ -5,6 +5,15 @@ let presupuesto = 0;
 
 function actualizarPresupuesto() {
 
+    if (!isNaN(nuevoPresupuesto) && nuevoPresupuesto >= 0) {
+        presupuesto = nuevoPresupuesto;
+        return presupuesto;
+    } 
+    else 
+        {
+        console.log("Error: el valor introducido no es válido.");
+        return -1;
+    }
     // TODO
 }
 
