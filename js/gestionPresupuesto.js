@@ -3,7 +3,7 @@ let presupuesto = 0;
 // TODO: Variable global
 
 
-function actualizarPresupuesto() {
+function actualizarPresupuesto(nuevoPresupuesto) {
 
     if (!isNaN(nuevoPresupuesto) && nuevoPresupuesto >= 0) {
         presupuesto = nuevoPresupuesto;
@@ -18,12 +18,14 @@ function actualizarPresupuesto() {
 }
 
 function mostrarPresupuesto() {
+
+    return `Tu presupuesto actual es de ${presupuesto} €`;
     // TODO
 }
 
 function CrearGasto() {
+            };
     // TODO
-}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
