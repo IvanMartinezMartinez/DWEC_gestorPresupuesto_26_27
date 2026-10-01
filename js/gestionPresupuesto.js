@@ -23,9 +23,38 @@ function mostrarPresupuesto() {
     // TODO
 }
 
-function CrearGasto() {
+function CrearGasto(descripcion, valor) {
+
+    this.descripcion = descripcion;
+
+    // Es numero no negativo?
+    if (!isNaN(valor) && valor >= 0) 
+        {
+        this.valor = valor;
+        } else 
+            {
+            this.valor = 0;
+            }
+
+            this.mostrarGasto = function () 
+            {
+                return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
             };
-    // TODO
+
+            this.actualizarDescripcion = function (nuevaDescripcion) 
+            {
+                this.descripcion = nuevaDescripcion;
+            };
+
+            this.actualizarValor = function (nuevoValor) 
+            {
+                if (!isNaN(nuevoValor) && nuevoValor >= 0) 
+                    {
+                    this.valor = nuevoValor;
+                    }
+            };
+        }
+//TODO
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
