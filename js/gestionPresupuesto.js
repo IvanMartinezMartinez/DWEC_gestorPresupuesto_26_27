@@ -101,6 +101,10 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
 }
 //TODO, hecho.
 
+function listarGastos() {
+    return gastos;
+}
+
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
