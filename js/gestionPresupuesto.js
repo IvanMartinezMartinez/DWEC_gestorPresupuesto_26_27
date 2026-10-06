@@ -117,7 +117,11 @@ function borrarGasto(id) {
     });
 }
 
-
+function calcularTotalGastos() {
+    return gastos.reduce(function (total, gasto) {
+        return total + gasto.valor;
+    }, 0);
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
