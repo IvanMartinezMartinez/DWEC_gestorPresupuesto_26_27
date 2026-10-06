@@ -26,38 +26,82 @@ function mostrarPresupuesto() {
     // TODO, hecho.
 }
 
-function CrearGasto(descripcion, valor) {
-
+function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     this.descripcion = descripcion;
 
-    // Es numero no negativo?
-    if (!isNaN(valor) && valor >= 0) 
-        {
+    // Validacion del valor del numero
+    if (!isNaN(valor) && valor >= 0) {
         this.valor = valor;
-        } else 
-            {
-            this.valor = 0;
-            }
+    } else {
+        this.valor = 0;
+    }
 
-            this.mostrarGasto = function () 
-            {
-                return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
-            };
+    // Inicializa la propiedad etiquetas
+    this.etiquetas = [];
 
-            this.actualizarDescripcion = function (nuevaDescripcion) 
-            {
-                this.descripcion = nuevaDescripcion;
-            };
+    // Gestion de la fecha (se guarda en timestamp)
+    if (fecha !== undefined && !isNaN(Date.parse(fecha))) {
+        this.fecha = Date.parse(fecha);
+    } else {
+        this.fecha = Date.now();
+    }
 
-            this.actualizarValor = function (nuevoValor) 
-            {
-                if (!isNaN(nuevoValor) && nuevoValor >= 0) 
-                    {
-                    this.valor = nuevoValor;
-                    }
-            };
+    // Metodos de la Práctica 1
+    this.mostrarGasto = function () {
+        return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
+    };
+
+    this.actualizarDescripcion = function (nuevaDescripcion) {
+        this.descripcion = nuevaDescripcion;
+    };
+
+    this.actualizarValor = function (nuevoValor) {
+        if (!isNaN(nuevoValor) && nuevoValor >= 0) {
+            this.valor = nuevoValor;
         }
+    };
+
+    // Metodos nuevos de la Practica 2
+    this.actualizarFecha = function (nuevaFecha) {
+        let timestamp = Date.parse(nuevaFecha);
+        if (!isNaN(timestamp)) {
+            this.fecha = timestamp;
+        }
+    };
+
+    this.anyadirEtiquetas = function (...nuevasEtiquetas) {
+        for (let etiqueta of nuevasEtiquetas) {
+            if (!this.etiquetas.includes(etiqueta)) {
+                this.etiquetas.push(etiqueta);
+            }
+        }
+    };
+
+    this.borrarEtiquetas = function (...etiquetasABorrar) {
+        this.etiquetas = this.etiquetas.filter(function (etiqueta) {
+            return !etiquetasABorrar.includes(etiqueta);
+        });
+    };
+
+    this.mostrarGastoCompleto = function () {
+        let fechaObj = new Date(this.fecha);
+        let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${fechaObj.toLocaleString()}\nEtiquetas:`;
+
+        for (let etiqueta of this.etiquetas) {
+            texto += `\n - ${etiqueta}`;
+        }
+
+        return texto;
+    };
+
+    // Si se pasaron etiquetas en el constructor, se añaden mediante el metodo
+    if (etiquetas.length > 0) {
+        this.anyadirEtiquetas(...etiquetas);
+    }
+}
 //TODO, hecho.
+
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
