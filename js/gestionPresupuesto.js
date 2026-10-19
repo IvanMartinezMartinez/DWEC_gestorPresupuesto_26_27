@@ -197,9 +197,41 @@ function filtrarGastos(criterios = {}) {
         return true;
     });
 }
+
+function agruparGastos(periodo = 'mes', etiquetas, fechaDesde, fechaHasta) {
+    let criterios = {};
+
+    if (etiquetas !== undefined && Array.isArray(etiquetas) && etiquetas.length > 0) {
+        criterios.etiquetasTiene = etiquetas;
+    }
+
+    if (fechaDesde !== undefined) {
+        criterios.fechaDesde = fechaDesde;
+    }
+
+    if (fechaHasta !== undefined) {
+        criterios.fechaHasta = fechaHasta;
+    } else {
+        criterios.fechaHasta = new Date().toISOString();
+    }
+
+    let gastosFiltrados = filtrarGastos(criterios);
+
+    return gastosFiltrados.reduce(function (acc, gasto) {
+        let clavePeriodo = gasto.obtenerPeriodoAgrupacion(periodo);
+
+        if (!acc[clavePeriodo]) {
+            acc[clavePeriodo] = 0;
+        }
+        acc[clavePeriodo] += gasto.valor;
+
+        return acc;
+    }, {});
+} 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
+
 export   {
     mostrarPresupuesto,
     actualizarPresupuesto,
@@ -209,5 +241,6 @@ export   {
     borrarGasto,
     calcularTotalGastos,
     calcularBalance,
-    filtrarGastos
+    filtrarGastos,
+    agruparGastos
 }
