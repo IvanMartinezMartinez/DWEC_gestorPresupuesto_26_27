@@ -29,24 +29,21 @@ function mostrarPresupuesto() {
 function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     this.descripcion = descripcion;
 
-    // Validacion del valor del numero
     if (!isNaN(valor) && valor >= 0) {
         this.valor = valor;
     } else {
         this.valor = 0;
     }
 
-    // Inicializa la propiedad etiquetas
     this.etiquetas = [];
 
-    // Gestion de la fecha (se guarda en timestamp)
     if (fecha !== undefined && !isNaN(Date.parse(fecha))) {
         this.fecha = Date.parse(fecha);
     } else {
         this.fecha = Date.now();
     }
 
-    // Metodos de la Práctica 1
+    // Metodos practica 1
     this.mostrarGasto = function () {
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
     };
@@ -61,7 +58,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
         }
     };
 
-    // Metodos nuevos de la Practica 2
+    // Metodos practica 2
     this.actualizarFecha = function (nuevaFecha) {
         let timestamp = Date.parse(nuevaFecha);
         if (!isNaN(timestamp)) {
@@ -94,7 +91,24 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
         return texto;
     };
 
-    // Si se pasaron etiquetas en el constructor, se añaden mediante el metodo
+        //Metodo 3ra practica
+    this.obtenerPeriodoAgrupacion = function (periodo) {
+        let d = new Date(this.fecha);
+        let anio = d.getFullYear();
+        let mes = String(d.getMonth() + 1).padStart(2, '0');
+        let dia = String(d.getDate()).padStart(2, '0');
+
+        if (periodo === 'dia') {
+            return `${anio}-${mes}-${dia}`;
+        } else if (periodo === 'mes') {
+            return `${anio}-${mes}`;
+        } else if (periodo === 'anyo') {
+            return `${anio}`;
+        }
+        return '';
+    };
+
+    // Añadir etiquetas iniciales si existen
     if (etiquetas.length > 0) {
         this.anyadirEtiquetas(...etiquetas);
     }
@@ -127,6 +141,62 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
+function filtrarGastos(criterios = {}) {
+    return gastos.filter(function (gasto) {
+
+            //Filtro fechadesde
+        if (criterios.fechaDesde !== undefined) {
+            let tiempoDesde = Date.parse(criterios.fechaDesde);
+            if (!isNaN(tiempoDesde) && gasto.fecha < tiempoDesde) {
+                return false;
+            }
+        }
+
+        // Filtro fechaHasta
+        if (criterios.fechaHasta !== undefined) {
+            let tiempoHasta = Date.parse(criterios.fechaHasta);
+            if (!isNaN(tiempoHasta) && gasto.fecha > tiempoHasta) {
+                return false;
+            }
+        }
+
+        // Filtro valorMinimo
+        if (criterios.valorMinimo !== undefined) {
+            if (gasto.valor < criterios.valorMinimo) {
+                return false;
+            }
+        }
+
+        // Filtro valorMaximo
+        if (criterios.valorMaximo !== undefined) {
+            if (gasto.valor > criterios.valorMaximo) {
+                return false;
+            }
+        }
+
+        // Filtro descripcionContiene
+        if (criterios.descripcionContiene !== undefined) {
+            let descGasto = gasto.descripcion.toLowerCase();
+            let subcadena = criterios.descripcionContiene.toLowerCase();
+            if (!descGasto.includes(subcadena)) {
+                return false;
+            }
+        }
+
+        // Filtro etiquetasTiene
+        if (criterios.etiquetasTiene !== undefined && Array.isArray(criterios.etiquetasTiene) && criterios.etiquetasTiene.length > 0) {
+            let etiquetasFiltro = criterios.etiquetasTiene.map(e => e.toLowerCase());
+            let etiquetasGasto = gasto.etiquetas.map(e => e.toLowerCase());
+
+            let tieneAlguna = etiquetasFiltro.some(e => etiquetasGasto.includes(e));
+            if (!tieneAlguna) {
+                return false;
+            }
+        }
+
+        return true;
+    });
+}
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -138,5 +208,6 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos
 }
