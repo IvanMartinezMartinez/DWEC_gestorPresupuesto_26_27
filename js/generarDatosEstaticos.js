@@ -44,7 +44,7 @@ for (let gasto of filtrados1) {
 
 //Listar filtrado 2: más de 50€
 let filtrados2 = presupuestoLogica.filtrarGastos({
-    valorMinimo: 50
+    valorMinimo: 51
 });
 for (let gasto of filtrados2) {
     presupuestoWeb.mostrarGastoWeb('listado-gastos-filtrado-2', gasto);
@@ -52,7 +52,7 @@ for (let gasto of filtrados2) {
 
 //Listar filtrado 3: más de 200€ con etiqueta seguros
 let filtrados3 = presupuestoLogica.filtrarGastos({
-    valorMinimo: 200,
+    valorMinimo: 201,
     etiquetasTiene: ["seguros"]
 });
 for (let gasto of filtrados3) {
@@ -61,7 +61,7 @@ for (let gasto of filtrados3) {
 
 //Listar filtrado 4: comida o transporte de menos de 50€
 let filtrados4 = presupuestoLogica.filtrarGastos({
-    valorMaximo: 50,
+    valorMaximo: 49,
     etiquetasTiene: ["comida", "transporte"]
 });
 for (let gasto of filtrados4) {
