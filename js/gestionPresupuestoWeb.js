@@ -25,6 +25,39 @@ function repintar() {
     }
 }
 
+function actualizarPresupuestoWeb() {
+    let entrada = prompt("Introduce el nuevo presupuesto:");
+    if (entrada !== null) {
+        let nuevoPresupuesto = Number(entrada);
+        presupuestoLogica.actualizarPresupuesto(nuevoPresupuesto);
+        repintar();
+    }
+}
+
+function nuevoGastoWeb() {
+    let descripcion = prompt("Introduce la descripción del gasto:");
+    let valorStr = prompt("Introduce el valor del gasto:");
+    let fecha = prompt("Introduce la fecha del gasto (yyyy-mm-dd):");
+    let etiquetasStr = prompt("Introduce las etiquetas separadas por comas:");
+
+    let valor = Number(valorStr);
+    let etiquetas = etiquetasStr ? etiquetasStr.split(',').map(e => e.trim()) : [];
+
+    let nuevoGasto = new presupuestoLogica.CrearGasto(descripcion, valor, fecha, ...etiquetas);
+    presupuestoLogica.anyadirGasto(nuevoGasto);
+    repintar();
+}
+
+// Registro de eventos en los botones principales
+let btnActualizarPresupuesto = document.getElementById('actualizarpresupuesto');
+if (btnActualizarPresupuesto) {
+    btnActualizarPresupuesto.addEventListener('click', actualizarPresupuestoWeb);
+}
+
+let btnAnyadirGasto = document.getElementById('anyadirgasto');
+if (btnAnyadirGasto) {
+    btnAnyadirGasto.addEventListener('click', nuevoGastoWeb);
+}
 
 function mostrarDatoEnId(idElemento, valor) {
     let elemento = document.getElementById(idElemento);
