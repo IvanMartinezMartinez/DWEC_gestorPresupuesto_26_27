@@ -1,5 +1,31 @@
 'use strict';
 
+import * as presupuestoLogica from './gestionPresupuesto.js';
+
+function repintar() {
+    //Mostrar presupuesto
+    mostrarDatoEnId('presupuesto', presupuestoLogica.mostrarPresupuesto());
+
+    //Mostrar gastos totales
+    mostrarDatoEnId('gastos-totales', presupuestoLogica.calcularTotalGastos());
+
+    //Mostrar balance total
+    mostrarDatoEnId('balance-total', presupuestoLogica.calcularBalance());
+
+    //Borrar el contenido de div#listado-gastos-completo
+    let divListado = document.getElementById('listado-gastos-completo');
+    if (divListado) {
+        divListado.innerHTML = '';
+    }
+
+    //Volver a pintar el listado completo de gastos
+    let listaGastos = presupuestoLogica.listarGastos();
+    for (let gasto of listaGastos) {
+        mostrarGastoWeb('listado-gastos-completo', gasto);
+    }
+}
+
+
 function mostrarDatoEnId(idElemento, valor) {
     let elemento = document.getElementById(idElemento);
     if (elemento) {
