@@ -59,6 +59,46 @@ if (btnAnyadirGasto) {
     btnAnyadirGasto.addEventListener('click', nuevoGastoWeb);
 }
 
+function EditarHandle() {
+    this.handleEvent = function (event) {
+        let descripcion = prompt("Introduce la nueva descripción:", this.gasto.descripcion);
+        let valorStr = prompt("Introduce el nuevo valor:", this.gasto.valor);
+        
+        // formatear la fecha a yyyy-mm-dd para el prompt
+        let fechaActual = new Date(this.gasto.fecha).toISOString().slice(0, 10);
+        let fecha = prompt("Introduce la nueva fecha (yyyy-mm-dd):", fechaActual);
+        
+        let etiquetasActuales = this.gasto.etiquetas.join(',');
+        let etiquetasStr = prompt("Introduce las etiquetas separadas por comas:", etiquetasActuales);
+
+        let valor = Number(valorStr);
+        let etiquetas = etiquetasStr ? etiquetasStr.split(',').map(e => e.trim()) : [];
+
+        this.gasto.actualizarDescripcion(descripcion);
+        this.gasto.actualizarValor(valor);
+        this.gasto.actualizarFecha(fecha);
+        this.gasto.anyadirEtiquetas(...etiquetas);
+
+        repintar();
+    };
+}
+
+// borrar gasto
+function BorrarHandle() {
+    this.handleEvent = function (event) {
+        presupuestoLogica.borrarGasto(this.gasto.id);
+        repintar();
+    };
+}
+
+// borrar etiquetas de un gasto
+function BorrarEtiquetasHandle() {
+    this.handleEvent = function (event) {
+        this.gasto.borrarEtiquetas(this.etiqueta);
+        repintar();
+    };
+}
+
 function mostrarDatoEnId(idElemento, valor) {
     let elemento = document.getElementById(idElemento);
     if (elemento) {
